@@ -22,7 +22,7 @@ int main()
 	unsigned char seed[32] = {0};
 
 	uint8_t s1[_PUB_N_BYTE], s2[_PUB_N_BYTE];
-	uint8_t d1[_PUB_M_BYTE],d2[_PUB_M_BYTE],tt[_PUB_N_BYTE];
+	uint8_t d1[_PUB_N_BYTE],d2[_PUB_N_BYTE],tt[_PUB_N_BYTE];
 	pflash_key pk,sk;
 	pflash_key * dpk = &pk;
 	pflash_key * dsk = &sk;
@@ -90,15 +90,15 @@ int main()
 
 
 
-	gf16v_rand(d1,_PUB_M);
+	gf256v_rand(d1,_PUB_M_BYTE);
 	pflash_secmap( s1 , dsk , d1 , seed );
 	pflash_pubmap_seckey( d2 , dpk , s1 );
 	gf256v_fdump( stdout , d1 , _PUB_M_BYTE ); printf("\n");
 	gf256v_fdump( stdout , s1 , _PUB_N_BYTE ); printf("\n");
-	gf256v_fdump( stdout , d2 , _PUB_M_BYTE ); printf("\n\n");
+	gf256v_fdump( stdout , d2 , _PUB_N_BYTE ); printf("\n\n");
 
 	for(unsigned i=0;i<TEST_RUN;i++) {
-		gf16v_rand(d1,_PUB_M);
+		gf256v_rand(d1,_PUB_M_BYTE);
 		pflash_secmap( s1 , dsk , d1 , seed );
 		pflash_pubmap_seckey( d2 , dpk , s1 );
 
@@ -117,7 +117,7 @@ int main()
 
 	printf("\n\n============= sign/verify test ==============\n");
 
-	uint8_t qp_pk[(qterms+_PUB_N)*_PUB_M_BYTE];
+	uint8_t qp_pk[_PUB_KEY_LEN] __attribute__((aligned(32)));
 
 	pflash_genkey(qp_pk,dsk);
 

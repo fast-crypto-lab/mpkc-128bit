@@ -171,6 +171,7 @@ uint8_t gf16v_dot_sse( const uint8_t * a , const uint8_t * b , unsigned n )
 	r ^= _mm_srli_si128(r,4);
 	r ^= _mm_srli_si128(r,2);
 	r ^= _mm_srli_si128(r,1);
+	r ^= _mm_srli_epi16(r,4);
 	return _mm_extract_epi16(r,0)&0xf;
 }
 
@@ -282,6 +283,21 @@ void gf16mat_prod_sse( uint8_t * c , const uint8_t * matA , unsigned n_A_vec_byt
 
 static inline
 void gf16v_batch_madd_sse_16( uint8_t * accu_c, const uint8_t * a , uint8_t _b ) {
+#if 1
+	__m128i b0 = tbl_gf16_log( _mm_set1_epi8(_b&0xf) );
+	__m128i b1 = tbl_gf16_log( _mm_set1_epi8((_b>>4)&0xf) );
+	__m128i mask = _mm_set1_epi8(0xf);
+
+	__m128i inp = _mm_load_si128( (__m128i*)a );
+	__m128i out = _mm_load_si128( (__m128i*)accu_c );
+	__m128i i0 = inp&mask;
+	__m128i i1 = _mm_srli_epi16(inp,4)&mask;
+	__m128i r0 = tbl_gf16_mul_log(i0,b0,mask);
+	__m128i r1 = tbl_gf16_mul_log(i1,b1,mask);
+	__m128i rr = r0 ^ r1 ^ out;
+
+	_mm_store_si128( (__m128i*)accu_c , rr );
+#else
 	unsigned b = _b;
 	__m128i ml = _mm_load_si128( (__m128i*) (__gf256_mul + 32*(b&0xf) ) );
 	__m128i mh = _mm_load_si128( (__m128i*) (__gf256_mul + 32*( (b>>4)&0xf) ) );
@@ -290,12 +306,13 @@ void gf16v_batch_madd_sse_16( uint8_t * accu_c, const uint8_t * a , uint8_t _b )
 	__m128i inp = _mm_load_si128( (__m128i*)a );
 	__m128i out = _mm_load_si128( (__m128i*)accu_c );
 	__m128i i0 = inp&mask;
-	__m128i i1 = _mm_srli_epi16(_mm_andnot_si128(mask,inp),4);
+	__m128i i1 = _mm_srli_epi16(inp,4)&mask;
 	__m128i r0 = _mm_shuffle_epi8(ml, i0 );
 	__m128i r1 = _mm_shuffle_epi8(mh, i1 );
 	__m128i rr = r0 ^ r1 ^ out;
 
 	_mm_store_si128( (__m128i*)accu_c , rr );
+#endif
 }
 
 

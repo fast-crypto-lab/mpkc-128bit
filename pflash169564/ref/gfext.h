@@ -358,8 +358,9 @@ void gf256ext_9_xor( uint8_t * b , const uint8_t * a ) { gf256v_add( b , a , 9 )
 static inline
 void gf256ext_9_mul( uint8_t * c , const uint8_t * a , const uint8_t * b )
 {
+#define W9 9
 	static const unsigned W = 9;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W9*2] = {0};
 	for(unsigned i=0;i<W;i++) {
 		gf256v_madd( tmp_mul+i , a , b[i] , W ); /// XXX
 		//for( unsigned j=0;j<W;j++) tmp_mul[i+j] ^= gf256_mul( a[i] , b[j] );
@@ -374,7 +375,7 @@ static inline
 void gf256ext_9_squ( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 9;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W9*2] = {0};
 	for(unsigned i=0;i<W;i++) tmp_mul[i<<1] = gf256_squ( a[i] );
 
 	gf256v_m0x4_add( tmp_mul , tmp_mul+W , W );
@@ -410,18 +411,18 @@ static inline
 void gf256ext_9_inv( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 9;
-	uint8_t tmp[W] = {0};
+	uint8_t tmp[W9] = {0};
 
 	gf256ext_9_squ(tmp,a);
-	uint8_t a3[W]; gf256ext_9_mul(a3,tmp,a);
+	uint8_t a3[W9]; gf256ext_9_mul(a3,tmp,a);
 	gf256ext_9_squ(tmp,a3);
 	gf256ext_9_squ(tmp,tmp);
-	uint8_t aF[W]; gf256ext_9_mul(aF,tmp,a3);
+	uint8_t aF[W9]; gf256ext_9_mul(aF,tmp,a3);
 	gf256ext_9_squ(tmp,aF);
 	gf256ext_9_squ(tmp,tmp);
 	gf256ext_9_squ(tmp,tmp);
 	gf256ext_9_squ(tmp,tmp);
-	uint8_t aFF[W]; gf256ext_9_mul(aFF,tmp,aF);
+	uint8_t aFF[W9]; gf256ext_9_mul(aFF,tmp,aF);
 
 	for(unsigned i=0;i<W;i++) tmp[i]=aFF[i];
 	for(unsigned i=0;i<7;i++) {
@@ -463,8 +464,9 @@ void gf256ext_15_xor( uint8_t * b , const uint8_t * a ) { gf256v_add( b , a , 15
 static inline
 void gf256ext_15_mul( uint8_t * c , const uint8_t * a , const uint8_t * b )
 {
+#define W15 15
 	static const unsigned W = 15;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W15*2] = {0};
 	for(unsigned i=0;i<W;i++) {
 		gf256v_madd( tmp_mul+i , a , b[i] , W ); /// XXX
 		//for( unsigned j=0;j<W;j++) tmp_mul[i+j] ^= gf256_mul( a[i] , b[j] );
@@ -479,7 +481,7 @@ static inline
 void gf256ext_15_squ( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 15;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W15*2] = {0};
 	for(unsigned i=0;i<W;i++) tmp_mul[i<<1] = gf256_squ( a[i] );
 
 	gf256v_m0x4_add( tmp_mul , tmp_mul+W , W );
@@ -513,18 +515,18 @@ static inline
 void gf256ext_15_inv( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 15;
-	uint8_t tmp[W] = {0};
+	uint8_t tmp[W15] = {0};
 
 	gf256ext_15_squ(tmp,a);
-	uint8_t a3[W]; gf256ext_15_mul(a3,tmp,a);
+	uint8_t a3[W15]; gf256ext_15_mul(a3,tmp,a);
 	gf256ext_15_squ(tmp,a3);
 	gf256ext_15_squ(tmp,tmp);
-	uint8_t aF[W]; gf256ext_15_mul(aF,tmp,a3);
+	uint8_t aF[W15]; gf256ext_15_mul(aF,tmp,a3);
 	gf256ext_15_squ(tmp,aF);
 	gf256ext_15_squ(tmp,tmp);
 	gf256ext_15_squ(tmp,tmp);
 	gf256ext_15_squ(tmp,tmp);
-	uint8_t aFF[W]; gf256ext_15_mul(aFF,tmp,aF);
+	uint8_t aFF[W15]; gf256ext_15_mul(aFF,tmp,aF);
 
 	for(unsigned i=0;i<W;i++) tmp[i]=aFF[i];
 	for(unsigned i=0;i<13;i++) {
@@ -644,7 +646,8 @@ static inline
 void gf256ext_8_mul( uint8_t * c , const uint8_t * a , const uint8_t * b )
 {
 	static const unsigned W = 8;
-	uint8_t tmp_mul[W*2] = {0};
+#define W8 8
+	uint8_t tmp_mul[W8*2] = {0};
 	for(unsigned i=0;i<W;i++) {
 		gf256v_madd( tmp_mul+i , a , b[i] , W ); /// XXX
 		//for( unsigned j=0;j<W;j++) tmp_mul[i+j] ^= gf256_mul( a[i] , b[j] );
@@ -663,7 +666,7 @@ static inline
 void gf256ext_8_squ( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 8;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W8*2] = {0};
 	for(unsigned i=0;i<W;i++) tmp_mul[i<<1] = gf256_squ( a[i] );
 
 	for(unsigned i = (W-1)*2;i>=W;i--) {
@@ -703,18 +706,18 @@ static inline
 void gf256ext_8_inv( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 8;
-	uint8_t tmp[W] = {0};
+	uint8_t tmp[W8] = {0};
 
 	gf256ext_8_squ(tmp,a);
-	uint8_t a3[W]; gf256ext_8_mul(a3,tmp,a);
+	uint8_t a3[W8]; gf256ext_8_mul(a3,tmp,a);
 	gf256ext_8_squ(tmp,a3);
 	gf256ext_8_squ(tmp,tmp);
-	uint8_t aF[W]; gf256ext_8_mul(aF,tmp,a3);
+	uint8_t aF[W8]; gf256ext_8_mul(aF,tmp,a3);
 	gf256ext_8_squ(tmp,aF);
 	gf256ext_8_squ(tmp,tmp);
 	gf256ext_8_squ(tmp,tmp);
 	gf256ext_8_squ(tmp,tmp);
-	uint8_t aFF[W]; gf256ext_8_mul(aFF,tmp,aF);
+	uint8_t aFF[W8]; gf256ext_8_mul(aFF,tmp,aF);
 
 	for(unsigned i=0;i<W;i++) tmp[i]=aFF[i];
 	for(unsigned i=0;i<6;i++) {
@@ -754,8 +757,11 @@ void gf256ext_28_xor( uint8_t * b , const uint8_t * a ) { gf256v_add( b , a , 28
 static inline
 void gf256ext_28_mul( uint8_t * c , const uint8_t * a , const uint8_t * b )
 {
+#ifndef W28
+#define W28 28
+#endif
 	static const unsigned W = 28;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W28*2] = {0};
 	for(unsigned i=0;i<W;i++) {
 		gf256v_madd( tmp_mul+i , a , b[i] , W );
 		//for( unsigned j=0;j<W;j++) tmp_mul[i+j] ^= gf256_mul( a[i] , b[j] );
@@ -774,7 +780,7 @@ static inline
 void gf256ext_28_squ( uint8_t * c , const uint8_t * a )
 {
 	static const unsigned W = 28;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W28*2] = {0};
 
 	for(unsigned i=0;i<W;i++) tmp_mul[i<<1] = gf256_squ( a[i] );
 
@@ -811,18 +817,18 @@ static inline
 void gf256ext_28_inv( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 28;
-	uint8_t tmp[W] = {0};
+	uint8_t tmp[W28] = {0};
 
 	gf256ext_28_squ(tmp,a);
-	uint8_t a3[W]; gf256ext_28_mul(a3,tmp,a);
+	uint8_t a3[W28]; gf256ext_28_mul(a3,tmp,a);
 	gf256ext_28_squ(tmp,a3);
 	gf256ext_28_squ(tmp,tmp);
-	uint8_t aF[W]; gf256ext_28_mul(aF,tmp,a3);
+	uint8_t aF[W28]; gf256ext_28_mul(aF,tmp,a3);
 	gf256ext_28_squ(tmp,aF);
 	gf256ext_28_squ(tmp,tmp);
 	gf256ext_28_squ(tmp,tmp);
 	gf256ext_28_squ(tmp,tmp);
-	uint8_t aFF[W]; gf256ext_28_mul(aFF,tmp,aF);
+	uint8_t aFF[W28]; gf256ext_28_mul(aFF,tmp,aF);
 
 	memcpy( tmp , aFF , W );
 	//for(unsigned i=0;i<W;i++) tmp[i]=aFF[i];
@@ -864,7 +870,8 @@ static inline
 void gf256ext_30_mul( uint8_t * c , const uint8_t * a , const uint8_t * b )
 {
 	static const unsigned W = 30;
-	uint8_t tmp_mul[W*2] = {0};
+#define W30 30
+	uint8_t tmp_mul[W30*2] = {0};
 	for(unsigned i=0;i<W;i++) {
 		gf256v_madd( tmp_mul+i , a , b[i] , W );
 		//for( unsigned j=0;j<W;j++) tmp_mul[i+j] ^= gf256_mul( a[i] , b[j] );
@@ -884,7 +891,7 @@ static inline
 void gf256ext_30_squ( uint8_t * c , const uint8_t * a )
 {
 	static const unsigned W = 30;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W30*2] = {0};
 
 	for(unsigned i=0;i<W;i++) tmp_mul[i<<1] = gf256_squ( a[i] );
 
@@ -922,18 +929,18 @@ static inline
 void gf256ext_30_inv( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 30;
-	uint8_t tmp[W] = {0};
+	uint8_t tmp[W30] = {0};
 
 	gf256ext_30_squ(tmp,a);
-	uint8_t a3[W]; gf256ext_30_mul(a3,tmp,a);
+	uint8_t a3[W30]; gf256ext_30_mul(a3,tmp,a);
 	gf256ext_30_squ(tmp,a3);
 	gf256ext_30_squ(tmp,tmp);
-	uint8_t aF[W]; gf256ext_30_mul(aF,tmp,a3);
+	uint8_t aF[W30]; gf256ext_30_mul(aF,tmp,a3);
 	gf256ext_30_squ(tmp,aF);
 	gf256ext_30_squ(tmp,tmp);
 	gf256ext_30_squ(tmp,tmp);
 	gf256ext_30_squ(tmp,tmp);
-	uint8_t aFF[W]; gf256ext_30_mul(aFF,tmp,aF);
+	uint8_t aFF[W30]; gf256ext_30_mul(aFF,tmp,aF);
 
 	memcpy( tmp , aFF , W );
 	//for(unsigned i=0;i<W;i++) tmp[i]=aFF[i];
@@ -972,7 +979,8 @@ static inline
 void gf256ext_32_mul( uint8_t * c , const uint8_t * a , const uint8_t * b )
 {
 	static const unsigned W = 32;
-	uint8_t tmp_mul[W*2] = {0};
+#define W32 32
+	uint8_t tmp_mul[W32*2] = {0};
 	for(unsigned i=0;i<W;i++) {
 		gf256v_madd( tmp_mul+i , a , b[i] , W );
 		//for( unsigned j=0;j<W;j++) tmp_mul[i+j] ^= gf256_mul( a[i] , b[j] );
@@ -991,7 +999,7 @@ static inline
 void gf256ext_32_squ( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 32;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W32*2] = {0};
 	for(unsigned i=0;i<W;i++) tmp_mul[i<<1] = gf256_squ( a[i] );
 
 	for(unsigned i = (W-1)*2;i>=W;i--) {
@@ -1029,18 +1037,18 @@ static inline
 void gf256ext_32_inv( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 32;
-	uint8_t tmp[W] = {0};
+	uint8_t tmp[W32] = {0};
 
 	gf256ext_32_squ(tmp,a);
-	uint8_t a3[W]; gf256ext_32_mul(a3,tmp,a);
+	uint8_t a3[W32]; gf256ext_32_mul(a3,tmp,a);
 	gf256ext_32_squ(tmp,a3);
 	gf256ext_32_squ(tmp,tmp);
-	uint8_t aF[W]; gf256ext_32_mul(aF,tmp,a3);
+	uint8_t aF[W32]; gf256ext_32_mul(aF,tmp,a3);
 	gf256ext_32_squ(tmp,aF);
 	gf256ext_32_squ(tmp,tmp);
 	gf256ext_32_squ(tmp,tmp);
 	gf256ext_32_squ(tmp,tmp);
-	uint8_t aFF[W]; gf256ext_32_mul(aFF,tmp,aF);
+	uint8_t aFF[W32]; gf256ext_32_mul(aFF,tmp,aF);
 
 	for(unsigned i=0;i<W;i++) tmp[i]=aFF[i];
 	for(unsigned i=0;i<30;i++) {
@@ -1076,10 +1084,11 @@ void identity_384( uint8_t * r , const uint8_t * a ) { memcpy(r,a,48); }
 static inline
 void gf256ext_3_16_mul( uint8_t * c , const uint8_t * _a , const uint8_t * _b )
 {
+#define W16 16
 	static const unsigned W = 16;
-	uint32_t tmp_mul[W*2] = {0};
-	uint32_t a[W] = {0};
-	uint32_t b[W] = {0};
+	uint32_t tmp_mul[W16*2] = {0};
+	uint32_t a[W16] = {0};
+	uint32_t b[W16] = {0};
 
 	for(unsigned i=0;i<W;i++) a[i] = ((uint32_t)_a[i*3+0])|(((uint32_t)_a[i*3+1])<<8)|(((uint32_t)_a[i*3+2])<<16);
 	for(unsigned i=0;i<W;i++) b[i] = ((uint32_t)_b[i*3+0])|(((uint32_t)_b[i*3+1])<<8)|(((uint32_t)_b[i*3+2])<<16);
@@ -1106,8 +1115,8 @@ static inline
 void gf256ext_3_16_squ( uint8_t * c , const uint8_t * _a )
 {
 	static const unsigned W = 16;
-	uint32_t tmp_mul[W*2] = {0};
-	uint32_t a[W] = {0};
+	uint32_t tmp_mul[W16*2] = {0};
+	uint32_t a[W16] = {0};
 	for(unsigned i=0;i<W;i++) a[i] = ((uint32_t)_a[i*3+0])|(((uint32_t)_a[i*3+1])<<8)|(((uint32_t)_a[i*3+2])<<16);
 
 	for(unsigned i=0;i<W;i++) tmp_mul[i*2] = gf256_3_squ( a[i] );
@@ -1175,8 +1184,11 @@ void gf256ext_48_xor( uint8_t * b , const uint8_t * a ) { gf256v_add( b , a , 48
 static inline
 void gf256ext_48_mul( uint8_t * c , const uint8_t * a , const uint8_t * b )
 {
+#ifndef W48
+#define W48 48
+#endif
 	static const unsigned W = 48;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W48*2] = {0};
 	for(unsigned i=0;i<W;i++) {
 		gf256v_madd( tmp_mul+i , a , b[i] , W );
 		//for( unsigned j=0;j<W;j++) tmp_mul[i+j] ^= gf256_mul( a[i] , b[j] );
@@ -1196,7 +1208,7 @@ static inline
 void gf256ext_48_squ( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 48;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W48*2] = {0};
 	for(unsigned i=0;i<W;i++) tmp_mul[i<<1] = gf256_squ( a[i] );
 
 	for(unsigned i = (W-1)*2;i>=W;i--) {
@@ -1268,18 +1280,18 @@ static inline
 void gf256ext_48_inv( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 48;
-	uint8_t tmp[W] = {0};
+	uint8_t tmp[W48] = {0};
 
 	gf256ext_48_squ(tmp,a);
-	uint8_t a3[W]; gf256ext_48_mul(a3,tmp,a);
+	uint8_t a3[W48]; gf256ext_48_mul(a3,tmp,a);
 	gf256ext_48_squ(tmp,a3);
 	gf256ext_48_squ(tmp,tmp);
-	uint8_t aF[W]; gf256ext_48_mul(aF,tmp,a3);
+	uint8_t aF[W48]; gf256ext_48_mul(aF,tmp,a3);
 	gf256ext_48_squ(tmp,aF);
 	gf256ext_48_squ(tmp,tmp);
 	gf256ext_48_squ(tmp,tmp);
 	gf256ext_48_squ(tmp,tmp);
-	uint8_t aFF[W]; gf256ext_48_mul(aFF,tmp,aF);
+	uint8_t aFF[W48]; gf256ext_48_mul(aFF,tmp,aF);
 
 	for(unsigned i=0;i<W;i++) tmp[i]=aFF[i];
 	for(unsigned i=0;i<46;i++) {
@@ -1318,7 +1330,7 @@ static inline
 void gf256ext_16_mul( uint8_t * c , const uint8_t * a , const uint8_t * b )
 {
 	static const unsigned W = 16;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W16*2] = {0};
 	for(unsigned i=0;i<W;i++) {
 		gf256v_madd( tmp_mul+i , a , b[i] , W );
 		//for( unsigned j=0;j<W;j++) tmp_mul[i+j] ^= gf256_mul( a[i] , b[j] );
@@ -1336,7 +1348,7 @@ static inline
 void gf256ext_16_squ( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 16;
-	uint8_t tmp_mul[W*2] = {0};
+	uint8_t tmp_mul[W16*2] = {0};
 	for(unsigned i=0;i<W;i++) tmp_mul[i<<1] = gf256_squ( a[i] );
 
 	for(unsigned i = (W-1)*2;i>=W;i--) {
@@ -1373,18 +1385,18 @@ static inline
 void gf256ext_16_inv( uint8_t * b , const uint8_t * a )
 {
 	static const unsigned W = 32;
-	uint8_t tmp[W] = {0};
+	uint8_t tmp[W32] = {0};
 
 	gf256ext_16_squ(tmp,a);
-	uint8_t a3[W]; gf256ext_16_mul(a3,tmp,a);
+	uint8_t a3[W32]; gf256ext_16_mul(a3,tmp,a);
 	gf256ext_16_squ(tmp,a3);
 	gf256ext_16_squ(tmp,tmp);
-	uint8_t aF[W]; gf256ext_16_mul(aF,tmp,a3);
+	uint8_t aF[W32]; gf256ext_16_mul(aF,tmp,a3);
 	gf256ext_16_squ(tmp,aF);
 	gf256ext_16_squ(tmp,tmp);
 	gf256ext_16_squ(tmp,tmp);
 	gf256ext_16_squ(tmp,tmp);
-	uint8_t aFF[W]; gf256ext_16_mul(aFF,tmp,aF);
+	uint8_t aFF[W32]; gf256ext_16_mul(aFF,tmp,aF);
 
 	for(unsigned i=0;i<W;i++) tmp[i]=aFF[i];
 	for(unsigned i=0;i<14;i++) {

@@ -53,7 +53,6 @@ extern  "C" {
 #define gf256v_m0x10_add  gf256v_m0x10_add_sse
 #define gf256v_m0x4_add  gf256v_m0x4_add_sse
 #define gf256mat_prod      gf256mat_prod_sse
-//#define gf256mat_prod      _gf256mat_prod
 
 #else
 

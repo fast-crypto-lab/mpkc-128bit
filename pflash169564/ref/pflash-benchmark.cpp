@@ -20,7 +20,7 @@ int main()
 
 	unsigned char seed[32] = {0};
 	uint8_t s1[_PUB_N_BYTE], s2[_PUB_N_BYTE];
-	uint8_t d1[_PUB_M_BYTE],d2[_PUB_M_BYTE],tt[_PUB_N_BYTE];
+	uint8_t d1[_PUB_N_BYTE],d2[_PUB_N_BYTE],tt[_PUB_N_BYTE];
 	pflash_key sk;
 	pflash_key * dsk = &sk;
 

@@ -4,13 +4,13 @@ LD=    gcc
 
 CFLAGS= -O3  -mavx2 -mpclmul -std=gnu99 -Wall -Wextra
 CXXFLAGS= -O3  -mavx2 -mpclmul -Wall -Wextra -fno-exceptions -fno-rtti -nostdinc++
-INCPATH= -I/usr/local/include -I/opt/local/include -I/usr/include  -I../gf2-dev/ -I../gf2-mpkc-dev/ -I../gf2-mpkc-dev/mq_gf16/ -I../gf2-mpkc-dev/mq_gf256/
+INCPATH= -I/usr/local/include -I/opt/local/include -I/usr/include
 LDFLAGS= 
-LIBPATH= -L/usr/local/lib -L/opt/local/lib -L/usr/lib -L../gf2-dev/
+LIBPATH= -L/usr/local/lib -L/opt/local/lib -L/usr/lib
 LIBS=    -lcrypto
 
 
-OBJ= blas.o gf16.o mq_gf256_var.o
+OBJ= rainbow.o blas.o gf16.o mq_gf256_var.o
 EXE= rainbow-test rainbow-benchmark
 
 
