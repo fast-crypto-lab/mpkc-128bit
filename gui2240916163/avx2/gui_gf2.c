@@ -13,6 +13,7 @@
 
 
 
+
 #ifndef _DEBUG_GUI_
 static inline
 #endif
@@ -28,7 +29,6 @@ void gui_pubmap_seckey( uint8_t * z , const gui_key * sk , const uint8_t * w ) {
 	uint8_t tt2[_SEC_M_BYTE] = {0};
 	gf2mat_prod( tt2 , sk->mat_t , _SEC_M_BYTE , _SEC_M , tt1 );
 	gf256v_add( tt2 , sk->vec_t , _SEC_M_BYTE );
-
 	memcpy( z , tt2 , _SEC_M_BYTE ); /// here. add "minus" for simulation.
 }
 
@@ -137,8 +137,7 @@ unsigned gui_secmap( uint8_t * w , const gui_key * sk , const uint8_t * z , cons
 			vinegar_run += _VINEGAR_BYTE;
 		}
 
-		succ = gui_ivs_central_map( x , sk , temp_t , vinegar );
-
+		succ = gui_ivs_central_map( x , sk , temp_batch_t , vinegar );
 		if( succ < _BATCH ) break;
 		/// check if ivsQ sucess here
 		time++;
@@ -249,6 +248,7 @@ void _gui_cpoly_eval( uint8_t *val , const uint8_t * poly , const uint8_t * a )
 
 
 
+
 #ifndef _DEBUG_GUI_
 static inline
 #endif
@@ -295,9 +295,10 @@ unsigned gui_ivs_central_map( uint8_t * x , const gui_key * sk , const uint8_t *
 	uint8_t poly[BGF_SIZE*C_TERMS*_BATCH] __attribute__((aligned(16)));
 	uint8_t * _poly = poly;
 	const uint8_t * _vinegar = vinegar;
+	const uint8_t * _y = y;
 	for(unsigned i=0;i<_BATCH;i++) {
 		gui_vinegar_eval( _poly , & sk->cpoly , _vinegar ); _vinegar += _VINEGAR_BYTE;
-		BGFADD( _poly , y ); y += BGF_SIZE;
+		BGFADD( _poly , _y ); _y += BGF_SIZE;
 		//for(unsigned i=0;i<C_TERMS;i++) ISO( _poly+i*BGF_SIZE , _poly+i*BGF_SIZE );
 		_poly += BGF_SIZE*C_TERMS;
 	}
