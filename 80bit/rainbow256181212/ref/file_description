@@ -1,0 +1,31 @@
+benchmark.h
+
+blas.c/blas.h -- inline functions for basic linear algebra.
+blas_config.h -- options for blas libs
+
+file_description -- this file.
+
+gf16.c/gf16.h/gf16_tabs.h  -- inline functions for GF(16) and GF(256). static data.
+
+hash_utils.c/hash_utils.h  -- hash tools.
+
+Makefile
+
+mpkc.h  -- inline functions for evaluating mpkc equations.
+
+prng_utils.c,prng_utils.h -- prng tools.
+
+rainbow_config.h  --  parameters for rainbow signature.
+rainbow.h/rainbow.c  --  main functions for rainbow signature.
+
+rainbow-benchmark.cpp  -- benchmarker.
+rainbow-genkey.c   -- executable for generating key pairs.
+rainbow-sign.c     -- executable for signing.
+rainbow-test.cpp   -- tester for rainbow functions.
+rainbow-verify.c   -- executable for verifying signature.
+
+README.md
+
+test.sh  --  tester
+
+utils.c/utils.h  tools for in/output.
